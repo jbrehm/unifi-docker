@@ -35,15 +35,14 @@ RUN apt-get clean && \
   apt-get clean -qy && \
   rm -rf /var/lib/apt/lists/*
 
-ADD 'https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_amd64.deb' /tmp/dumb-init_1.2.0_amd64.deb
-RUN  dpkg -i /tmp/dumb-init_*.deb && \
-  rm /tmp/dumb-init_*.deb
+ADD 'https://github.com/krallin/tini/releases/download/v0.14.0/tini-static-armhf' /tini
+RUN chmod +x /tini
 
 ENV BASEDIR=/usr/lib/unifi \
   DATADIR=/var/lib/unifi \
   RUNDIR=/var/run/unifi \
   LOGDIR=/var/log/unifi \
-  JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 \
+  JAVA_HOME=/usr/lib/jvm/java-8-openjdk-armhf \
   JVM_MAX_HEAP_SIZE=1024M \
   JVM_INIT_HEAP_SIZE=
 
@@ -70,7 +69,7 @@ RUN chmod +x /usr/local/bin/unifi.sh
 WORKDIR /var/lib/unifi
 
 # execute controller using JSVC like orignial debian package does
-ENTRYPOINT ["/usr/bin/dumb-init", "--"]
+ENTRYPOINT ["/tini", "--"]
 CMD ["/usr/local/bin/unifi.sh"]
 
 # execute the conroller directly without using the service
