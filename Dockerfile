@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM resin/rpi-raspbian:jessie
   # WORKING: ends up being 500MB+
 # FROM openjdk:8-jdk
   # openjdk:8-jdk might sound like a good alternative, currently based on debian jessie, but Docker could switch that to apline some day? It's 600MB+!!
